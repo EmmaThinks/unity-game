@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ControladorPuerta : MonoBehaviour
 {
-    [Header("Configuración de la Puerta")]
+    [Header("Configuraciï¿½n de la Puerta")]
     public Transform puerta;
     public float anguloAbierta = 90f;
     public float velocidadApertura = 5f;
@@ -10,27 +10,24 @@ public class ControladorPuerta : MonoBehaviour
     private Quaternion rotacionCerrada;
     private Quaternion rotacionAbierta;
 
-    // Usamos un contador en lugar de un simple verdadero/falso. 
-    // En VR, pueden entrar 2 manos y la cabeza. La puerta solo debe cerrar cuando el contador vuelva a 0.
     private int partesDelJugadorEnArea = 0;
     private bool jugadorEnArea = false;
 
     void Start()
     {
-        // SISTEMA DE SEGURIDAD: Evita que Unity colapse o detenga el simulador si olvidaste asignar la puerta
+
         if (puerta == null)
         {
-            Debug.LogError("¡Falta asignar la puerta en el objeto " + gameObject.name + "!");
+            Debug.LogError("ï¿½Falta asignar la puerta en el objeto " + gameObject.name + "!");
             return;
         }
 
         rotacionCerrada = puerta.rotation;
-        rotacionAbierta = rotacionCerrada * Quaternion.Euler(0, anguloAbierta, 0);
+        rotacionAbierta = rotacionCerrada * Quaternion.Euler(0, 0, anguloAbierta);
     }
 
     void Update()
     {
-        // SISTEMA DE SEGURIDAD: Si no hay puerta, no intentes rotar nada.
         if (puerta == null) return;
 
         if (jugadorEnArea)
@@ -47,7 +44,7 @@ public class ControladorPuerta : MonoBehaviour
     {
         if (otro.CompareTag("Player"))
         {
-            partesDelJugadorEnArea++; // Sumamos 1 por cada parte del cuerpo que entra
+            partesDelJugadorEnArea++; 
             jugadorEnArea = true;
         }
     }
@@ -56,9 +53,9 @@ public class ControladorPuerta : MonoBehaviour
     {
         if (otro.CompareTag("Player"))
         {
-            partesDelJugadorEnArea--; // Restamos 1 cuando sale una parte del cuerpo
+            partesDelJugadorEnArea--; 
 
-            // Si el contador llega a 0 (o menos, por seguridad), el jugador salió por completo
+
             if (partesDelJugadorEnArea <= 0)
             {
                 partesDelJugadorEnArea = 0;
